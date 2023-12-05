@@ -115,26 +115,35 @@ for tr in tr_tag:
     
 
 
-def p_and_r(driver, ids):
+def price_and_room(driver, ids):
     for wanted_id in ids:
         # if this is the id 
+        
         if wanted_id == "372714601_195175598_1_1_0" or wanted_id == "372714603_195175598_0_1_0":
             # find all tds then loop over desired td
             tds = driver.find_elements(By.TAG_NAME, "td")
             
             store_room_data = []
             store_price_data = []
+            current_room_type = []
             
             for td in tds:
                 room_attribute = td.get_attribute("class")
                 price_attribute = td.get_attribute("class")
                 
                 if room_attribute == "hprt-table-cell -first hprt-table-cell-roomtype droom_seperator":
-                    store_room_data.append(td.text.replace("\n", ", "))
+                    current_room_type = td.find_element(By.CLASS_NAME, "hprt-roomtype-link").text.replace("\n", ", ")
+                    store_room_data.append(current_room_type)
                     
                     
                 elif price_attribute == "hp-price-left-align hprt-table-cell hprt-table-cell-price   droom_seperator":
                         store_price_data.append(td.text.replace("\n", ", "))
+                        
+            
+            
+    return store_room_data, store_price_data
+    
+            
                         
     print(len(store_room_data))
     print(len(store_price_data))
@@ -142,28 +151,13 @@ def p_and_r(driver, ids):
     
                     
 
-p_and_r(driver, ids)    
-#print(store_room_data)        
-        
-# 2 tr tags different data block ids
-# collect both, loop over them and get room and price data
+store_room_data, store_price_data = price_and_room(driver, ids)    
+print(store_room_data)
+print(store_price_data)
 
-def price_and_room_type(tr_tag):
-    for td_tags in tr_tag:
-        all_td = td_tags.find_elements(By.TAG_NAME, "td")
-        
-        for td in all_td:
-            room_attribute = td.get_attribute("class")
-            price_attribute = td.get_attribute("class")
-            
-            if room_attribute == "hprt-table-cell -first hprt-table-cell-roomtype droom_seperator":
-                store_room_data.append(td.text.replace("\n", ", "))
-                
-                
-            elif price_attribute == "hp-price-left-align hprt-table-cell hprt-table-cell-price   droom_seperator":
-                store_price_data.append(td.text.replace("\n", ", "))
-
-    
+# create a dataframe with price and room info
+# store_room_data = one column
+# store price data = one column
 
 
 
