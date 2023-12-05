@@ -104,24 +104,66 @@ extract_data_block_id(all_tr_tags)
 
 
 
-store_room_data = []
 
-tr_tag = driver.find_elements(By.CSS_SELECTOR, 'tr[data-block-id = "372714603_195175598_0_1_0"]')
+ids =[]
 
-def room_type(tr_tag):
+tr_tag = driver.find_elements(By.TAG_NAME, "tr")
+
+for tr in tr_tag:
+    id_data = tr.get_attribute("data-block-id")
+    ids.append(id_data)
+    
+
+
+def p_and_r(driver, ids):
+    for wanted_id in ids:
+        # if this is the id 
+        if wanted_id == "372714601_195175598_1_1_0" or wanted_id == "372714603_195175598_0_1_0":
+            # find all tds then loop over desired td
+            tds = driver.find_elements(By.TAG_NAME, "td")
+            
+            store_room_data = []
+            store_price_data = []
+            
+            for td in tds:
+                room_attribute = td.get_attribute("class")
+                price_attribute = td.get_attribute("class")
+                
+                if room_attribute == "hprt-table-cell -first hprt-table-cell-roomtype droom_seperator":
+                    store_room_data.append(td.text.replace("\n", ", "))
+                    
+                    
+                elif price_attribute == "hp-price-left-align hprt-table-cell hprt-table-cell-price   droom_seperator":
+                        store_price_data.append(td.text.replace("\n", ", "))
+                        
+    print(len(store_room_data))
+    print(len(store_price_data))
+   
+    
+                    
+
+p_and_r(driver, ids)    
+#print(store_room_data)        
+        
+# 2 tr tags different data block ids
+# collect both, loop over them and get room and price data
+
+def price_and_room_type(tr_tag):
     for td_tags in tr_tag:
         all_td = td_tags.find_elements(By.TAG_NAME, "td")
         
         for td in all_td:
             room_attribute = td.get_attribute("class")
+            price_attribute = td.get_attribute("class")
             
             if room_attribute == "hprt-table-cell -first hprt-table-cell-roomtype droom_seperator":
-                store_room_data.append(td.text.replace("n", ""))
+                store_room_data.append(td.text.replace("\n", ", "))
+                
+                
+            elif price_attribute == "hp-price-left-align hprt-table-cell hprt-table-cell-price   droom_seperator":
+                store_price_data.append(td.text.replace("\n", ", "))
 
-room_type(tr_tag)
     
-
-print(store_room_data)
 
 
 
