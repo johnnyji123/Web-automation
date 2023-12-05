@@ -137,7 +137,7 @@ def price_and_room(driver, ids):
                     
                     
                 elif price_attribute == "hp-price-left-align hprt-table-cell hprt-table-cell-price   droom_seperator":
-                        store_price_data.append(td.text.replace("\n", ", "))
+                        store_price_data.append(td.text.replace(["\n"], ", "))
                         
             
             
@@ -151,13 +151,8 @@ def price_and_room(driver, ids):
     
                     
 
-store_room_data, store_price_data = price_and_room(driver, ids)    
+store_room_data, store_price_data = price_and_room(driver, ids )    
+
 print(store_room_data)
 print(store_price_data)
-
-# create a dataframe with price and room info
-# store_room_data = one column
-# store price data = one column
-
-
 
