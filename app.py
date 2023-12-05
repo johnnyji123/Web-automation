@@ -84,7 +84,44 @@ test ="https://www.booking.com/hotel/kr/toyoko-inn-seoul-gangnam.en-gb.html?chec
 
 driver.get(test)
 
+#pop-up dismissed
 pop_up = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, "onetrust-accept-btn-handler")))
 pop_up.click()
+
+
+data_block_ids = []
+# find all tr tags based on data block id 
+all_tr_tags = driver.find_elements(By.TAG_NAME, "tr")
+
+# extract the data block id 
+def extract_data_block_id(tr_tags):
+    for tr_tag in tr_tags:
+        tag_attribute = tr_tag.get_attribute("data-block-id")
+        data_block_ids.append(tag_attribute)
+        
+
+extract_data_block_id(all_tr_tags)
+
+
+
+store_room_data = []
+
+tr_tag = driver.find_elements(By.CSS_SELECTOR, 'tr[data-block-id = "372714603_195175598_0_1_0"]')
+
+def room_type(tr_tag):
+    for td_tags in tr_tag:
+        all_td = td_tags.find_elements(By.TAG_NAME, "td")
+        
+        for td in all_td:
+            room_attribute = td.get_attribute("class")
+            
+            if room_attribute == "hprt-table-cell -first hprt-table-cell-roomtype droom_seperator":
+                store_room_data.append(td.text.replace("n", ""))
+
+room_type(tr_tag)
+    
+
+print(store_room_data)
+
 
 
