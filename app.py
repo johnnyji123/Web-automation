@@ -8,13 +8,11 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 # Making a driver instance
-
 Service = webdriver.ChromeService(r"C:\Users\jj_jo\chromedriver.exe")
 driver = webdriver.Chrome(service = Service)
 
 
 # Website urls of hotels
-
 urls = [
     "https://www.booking.com/hotel/kr/toyoko-inn-seoul-gangnam.en-gb.html?checkin=2024-01-26&checkout=2024-01-27&group_adults=1&req_adults=1&no_rooms=1&group_children=0&req_children=0", 
     "https://www.booking.com/hotel/kr/toyoko-inn-seoul-yeongdeungpo.en-gb.html?checkin=2024-01-26&checkout=2024-01-27&group_adults=1&req_adults=1&no_rooms=1&group_children=0&req_children=0",
@@ -32,7 +30,6 @@ urls = [
 
 
 # Storing all scraped data in a list that will be used to make a dataframe later
-
 list_of_names = []
 list_of_ratings = []
 list_of_reviews = []
@@ -41,7 +38,6 @@ list_of_prices = []
 
 
 # Function to loop over all 10 urls
-
 def loop_urls(urls):
     
     for url in urls:
@@ -66,12 +62,10 @@ loop_urls(urls)
             
 
 # Collecting every 4th rating
-            
 list_of_ratings = list_of_ratings[::4]
 
 
 # Selecting the first 3 reviews of each hotel
-
 def review_data(reviews):
     for index, review in enumerate(reviews):
        if index % 10 < 3:
@@ -82,7 +76,6 @@ review_data(list_of_reviews)
 
 
 # My dictionary that will be used to make a df
-
 my_dict = {
             "Hotel name": list_of_names,
             "Rating": list_of_ratings,
@@ -94,7 +87,6 @@ my_dict = {
 
 
 # Each hotel has 3 reviews, for every 3 reviews append them to review 1, 2, 3
-
 def assign_review(reviews):
     for index, review in enumerate(reviews):
         
@@ -114,7 +106,6 @@ assign_review(first_3_reviews)
 
 
 # make df from my_dict
-
 hotel_details_df = pd.DataFrame(my_dict)
 hotel_details_df
 
