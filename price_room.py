@@ -14,12 +14,10 @@ driver = webdriver.Chrome(service = Service)
 
 
 # Price and Room url
-    
 p_and_r_url ="https://www.booking.com/hotel/kr/toyoko-inn-seoul-gangnam.en-gb.html?checkin=2024-01-26&checkout=2024-01-27&group_adults=1&req_adults=1&no_rooms=1&group_children=0&req_children=0"
 
 
 # Running driver
-
 def price_room_driver(driver, url):
     driver.get(url)
 
@@ -29,7 +27,6 @@ price_room_driver(driver , p_and_r_url)
 
 
 # Dismissing the popup
-
 def handle_pop_up(driver , locator):
     pop_up = WebDriverWait(driver, 20).until(EC.presence_of_element_located(locator))
     pop_up.click()
@@ -39,18 +36,15 @@ handle_pop_up(driver, (By.ID, "onetrust-accept-btn-handler"))
 
 
 # find all tr tags based on data block id 
-
 all_tr_tags = driver.find_elements(By.TAG_NAME, "tr")
 
 
 
 # Storing all data block ids in a 
-
 data_block_ids = []
 
 
 # extract the data block id from tr tags
-
 def extract_data_block_id(tr_tags):
     for tr_tag in tr_tags:
         tag_attribute = tr_tag.get_attribute("data-block-id")
@@ -61,7 +55,6 @@ extract_data_block_id(all_tr_tags)
 
 
 # Go into the id list if id is the one I want, find td tag, loop over it and extract price and room type
-
 def price_and_room(driver, ids):
     for wanted_id in ids:
         # if this is the id 
@@ -93,17 +86,15 @@ def price_and_room(driver, ids):
     
             
   
-# 
+
 store_room_data, store_price_data = price_and_room(driver, data_block_ids )    
 
 
 # Creating a dictionary using price and room data
-
 price_and_room_dict = {"Room type": store_room_data, "Price": store_price_data}
 
 
 # Creating df from dictionary
-
 price_and_room_df = pd.DataFrame(price_and_room_dict)
 price_and_room_df
 
