@@ -80,79 +80,67 @@ def review_data(reviews):
 review_data(list_of_reviews)
 
 
-test ="https://www.booking.com/hotel/kr/toyoko-inn-seoul-gangnam.en-gb.html?checkin=2024-01-26&checkout=2024-01-27&group_adults=1&req_adults=1&no_rooms=1&group_children=0&req_children=0"
-
-driver.get(test)
-
-#pop-up dismissed
-pop_up = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, "onetrust-accept-btn-handler")))
-pop_up.click()
-
-
-data_block_ids = []
-# find all tr tags based on data block id 
-all_tr_tags = driver.find_elements(By.TAG_NAME, "tr")
-
-# extract the data block id 
-def extract_data_block_id(tr_tags):
-    for tr_tag in tr_tags:
-        tag_attribute = tr_tag.get_attribute("data-block-id")
-        data_block_ids.append(tag_attribute)
-        
-
-extract_data_block_id(all_tr_tags)
-
-
-
-
-ids =[]
-
-tr_tag = driver.find_elements(By.TAG_NAME, "tr")
-
-for tr in tr_tag:
-    id_data = tr.get_attribute("data-block-id")
-    ids.append(id_data)
+my_dict = {
+            "Hotel name": list_of_names,
+            "Rating": list_of_ratings,
+            "Review 1": [],
+            "Review 2": [],
+            "Review 3": []
     
+    
+    }
 
 
-def price_and_room(driver, ids):
-    for wanted_id in ids:
-        # if this is the id 
-        
-        if wanted_id == "372714601_195175598_1_1_0" or wanted_id == "372714603_195175598_0_1_0":
-            # find all tds then loop over desired td
-            tds = driver.find_elements(By.TAG_NAME, "td")
-            
-            store_room_data = []
-            store_price_data = []
-            current_room_type = []
-            
-            for td in tds:
-                room_attribute = td.get_attribute("class")
-                price_attribute = td.get_attribute("class")
+test_reviews = list(range(0, 30))
+
+def assign_review(reviews):
+    counter_1 = 0
+    counter_2 = 0
+    counter_3 = 0
+    
+    for index, review in enumerate(reviews):
+        if index % 10 < 3:
+            if counter_1 == 0:
+                my_dict["Review 1"].append(review)
                 
-                if room_attribute == "hprt-table-cell -first hprt-table-cell-roomtype droom_seperator":
-                    current_room_type = td.find_element(By.CLASS_NAME, "hprt-roomtype-link").text.replace("\n", ", ")
-                    store_room_data.append(current_room_type)
-                    
-                    
-                elif price_attribute == "hp-price-left-align hprt-table-cell hprt-table-cell-price   droom_seperator":
-                        store_price_data.append(td.text.replace(["\n"], ", "))
-                        
+            
+            elif counter_2 == 0:
+                my_dict["Review 2"].append(review)
+                
+            
+            elif counter_3 == 0:
+                my_dict["Review 3"].append(review)
             
             
-    return store_room_data, store_price_data
-    
             
-                        
-    print(len(store_room_data))
-    print(len(store_price_data))
-   
-    
-                    
+            counter_1 = (counter_1 + 1) % 3
+            counter_2 = (counter_2 + 1) % 3
+            counter_3 = (counter_3 + 1) % 3
+        
+      
 
-store_room_data, store_price_data = price_and_room(driver, ids )    
+assign_review(test_reviews)            
+        
+print(my_dict["Review 1"])
+print(my_dict["Review 2"])
+print(my_dict["Review 3"])
 
-print(store_room_data)
-print(store_price_data)
+
+        
+       
+           
+
+            
+
+
+            
+    
+
+# Tomorrow !!
+# Implement titles, review,rating etc for this single url
+# create df for that
+# try to run 10 urls and see if it works
+# END!
+
+
 
