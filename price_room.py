@@ -8,7 +8,6 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 # Making driver instance 
-
 Service = webdriver.ChromeService(r"C:\Users\jj_jo\chromedriver.exe")
 driver = webdriver.Chrome(service = Service)
 
@@ -25,7 +24,6 @@ def price_room_driver(driver, url):
 price_room_driver(driver , p_and_r_url)
                   
 
-
 # Dismissing the popup
 def handle_pop_up(driver , locator):
     pop_up = WebDriverWait(driver, 20).until(EC.presence_of_element_located(locator))
@@ -37,7 +35,6 @@ handle_pop_up(driver, (By.ID, "onetrust-accept-btn-handler"))
 
 # find all tr tags based on data block id 
 all_tr_tags = driver.find_elements(By.TAG_NAME, "tr")
-
 
 
 # Storing all data block ids in a 
@@ -89,10 +86,8 @@ def price_and_room(driver, ids):
 
 store_room_data, store_price_data = price_and_room(driver, data_block_ids )    
 
-
 # Creating a dictionary using price and room data
 price_and_room_dict = {"Room type": store_room_data, "Price": store_price_data}
-
 
 # Creating df from dictionary
 price_and_room_df = pd.DataFrame(price_and_room_dict)
