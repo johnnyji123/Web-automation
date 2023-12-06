@@ -64,20 +64,12 @@ def loop_urls(urls):
             
  
             
-#loop_urls(urls)
+loop_urls(urls)
             
 list_of_ratings = list_of_ratings[::4]
 
 # out of every 10, I need the first 3
-    
 
-def review_data(reviews):
-    for index, review in enumerate(reviews):
-        if index % 10 < 3:
-            first_3_reviews.append(review)
-    
-
-review_data(list_of_reviews)
 
 
 my_dict = {
@@ -94,40 +86,26 @@ my_dict = {
 test_reviews = list(range(0, 30))
 
 def assign_review(reviews):
-    counter_1 = 0
-    counter_2 = 0
-    counter_3 = 0
-    
     for index, review in enumerate(reviews):
-        if index % 10 < 3:
-            if counter_1 == 0:
+        
+        if index % 3 == 0:
                 my_dict["Review 1"].append(review)
                 
-            
-            elif counter_2 == 0:
+        elif index % 3 == 1:
                 my_dict["Review 2"].append(review)
                 
-            
-            elif counter_3 == 0:
+        elif index % 3 == 2:
                 my_dict["Review 3"].append(review)
-            
-            
-            
-            counter_1 = (counter_1 + 1) % 3
-            counter_2 = (counter_2 + 1) % 3
-            counter_3 = (counter_3 + 1) % 3
         
       
 
-assign_review(test_reviews)            
+assign_review(list_of_reviews)            
         
-print(my_dict["Review 1"])
-print(my_dict["Review 2"])
-print(my_dict["Review 3"])
+print(len(my_dict["Review 1"]))
+print(len(my_dict["Review 2"]))
+print(len(my_dict["Review 3"]))
 
 
-        
-       
            
 
             
